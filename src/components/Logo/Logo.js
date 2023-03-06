@@ -1,28 +1,21 @@
 import Tilt from "react-parallax-tilt";
 import "./Logo.css";
+import { BiBrain } from "react-icons/bi";
 
 function Logo() {
   return (
-    // <div className="ma4 mt0">
-    //   <Tilt>
-    //     <div
-    //       className="Tilt mw4"
-    //       style={{
-    //         height: "200px",
-    //         backgroundColor: "darkgreen",
-    //       }}
-    //     >
-    //       <h1>React Parallax Tilt 👀</h1>
-    //     </div>
-    //   </Tilt>
-    // </div>
-    <div className="ma4 mt0 w-25 flex justify-center">
+    <div className="ma4 mt0 w-10">
       <Tilt>
         <div
-          className="Tilt br2 shadow-2"
-          style={{ height: "300px", backgroundColor: "darkgreen" }}
+          className="Tilt br2 shadow-2 flex justify-center align-center"
+          style={{
+            height: "auto",
+            backgroundColor: "darkgreen",
+          }}
         >
-          <h1>React Parallax Tilt 👀</h1>
+          {/* <h1> */}
+          <BiBrain style={{ fontSize: "150px" }} />
+          {/* </h1> */}
         </div>
       </Tilt>
     </div>
