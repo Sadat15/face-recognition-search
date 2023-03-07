@@ -1,6 +1,17 @@
 import "./ImageLinkForm.css";
+import { useState } from "react";
 
-function ImageLinkForm() {
+function ImageLinkForm({ onSubmit }) {
+  const [term, setTerm] = useState("");
+
+  const handleSubmit = (event) => {
+    onSubmit(term);
+  };
+
+  const handleChange = (event) => {
+    setTerm(event.target.value);
+  };
+
   return (
     <div>
       <p className="f3 center">
@@ -8,8 +19,17 @@ function ImageLinkForm() {
       </p>
       <div className="center">
         <div className="center form pa4 br3 shadow-5">
-          <input className="f4 pa2 w-70 center" type="text" />
-          <button className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple">
+          <input
+            value={term}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            className="f4 pa2 w-70 center"
+            type="text"
+          />
+          <button
+            onClick={handleSubmit}
+            className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
+          >
             Detect
           </button>
         </div>
