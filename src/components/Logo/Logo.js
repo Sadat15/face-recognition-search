@@ -13,9 +13,7 @@ function Logo() {
             backgroundColor: "darkgreen",
           }}
         >
-          {/* <h1> */}
           <BiBrain style={{ fontSize: "150px" }} />
-          {/* </h1> */}
         </div>
       </Tilt>
     </div>

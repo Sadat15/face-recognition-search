@@ -1,11 +1,12 @@
 import "./ImageLinkForm.css";
 import { useState } from "react";
 
-function ImageLinkForm({ onSubmit }) {
+function ImageLinkForm({ onSubmit, setImageUrl }) {
   const [term, setTerm] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     onSubmit(term);
+    setImageUrl(term);
   };
 
   const handleChange = (event) => {
@@ -22,7 +23,6 @@ function ImageLinkForm({ onSubmit }) {
           <input
             value={term}
             onChange={handleChange}
-            onSubmit={handleSubmit}
             className="f4 pa2 w-70 center"
             type="text"
           />
