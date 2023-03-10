@@ -1,8 +1,15 @@
 function FaceRecognition({ imageUrl }) {
   return (
     <div className="">
-      <div className="center">FaceRecognition</div>;
-      <img className="center" src={imageUrl} alt="" />
+      <div className="center mt3 mb3">
+        <img
+          className="center"
+          src={imageUrl}
+          alt=""
+          width="500px"
+          height="auto"
+        />
+      </div>
     </div>
   );
 }
