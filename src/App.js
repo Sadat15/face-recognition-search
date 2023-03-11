@@ -12,11 +12,12 @@ import { fetchBoundingBox } from "./components/api";
 
 function App() {
   const [imageUrl, setImageUrl] = useState("");
+  const [border, setBorder] = useState({});
 
-  const onSubmit = (searchTerm) => {
-    fetchBoundingBox(
-      "https://cdn.facesofopensource.com/wp-content/uploads/2017/07/23193713/brendaneich25607.web_.jpg"
-    );
+  const onSubmit = (imageUrl) => {
+    setImageUrl(imageUrl);
+
+    setBorder(fetchBoundingBox(imageUrl));
   };
 
   return (
@@ -25,7 +26,7 @@ function App() {
       <Navigation />
       <Logo />
       <Rank />
-      <ImageLinkForm onSubmit={onSubmit} setImageUrl={setImageUrl} />
+      <ImageLinkForm onSubmit={onSubmit} />
       <FaceRecognition imageUrl={imageUrl} />
     </div>
   );

@@ -2,11 +2,10 @@ import { PAT } from "../config";
 
 const USER_ID = "clarifai";
 const APP_ID = "main";
-
 const MODEL_ID = "face-detection";
 const MODEL_VERSION_ID = "45fb9a671625463fa646c3523a3087d5";
 
-export async function fetchBoundingBox(url) {
+export async function fetchBoundingBox(inputUrl) {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -22,13 +21,14 @@ export async function fetchBoundingBox(url) {
         {
           data: {
             image: {
-              url: url,
+              url: inputUrl,
             },
           },
         },
       ],
     }),
   };
+
   try {
     const response = await fetch(
       "https://api.clarifai.com/v2/models/" +

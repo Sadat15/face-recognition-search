@@ -1,12 +1,11 @@
 import "./ImageLinkForm.css";
 import { useState } from "react";
 
-function ImageLinkForm({ onSubmit, setImageUrl }) {
+function ImageLinkForm({ onSubmit }) {
   const [term, setTerm] = useState("");
 
   const handleSubmit = () => {
     onSubmit(term);
-    setImageUrl(term);
   };
 
   const handleChange = (event) => {
