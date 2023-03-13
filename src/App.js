@@ -6,19 +6,13 @@ import "./App.css";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import ParticlesComponent from "./components/Particles/Particles";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { fetchBoundingBox } from "./components/api";
 
 export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
-
-  useEffect(() => {
-    document.body.onclick = () => {
-      console.log(border);
-    };
-  }, [border]);
 
   const calculateFace = (data) => {
     const image = document.getElementById("inputimage");
@@ -27,15 +21,7 @@ export default function App() {
 
     const { top_row, bottom_row, left_col, right_col } = data;
 
-    console.log(width, height);
-
-    console.log(left_col, right_col);
-
     return {
-      // leftCol: window.innerWidth / 2 - 250 + left_col * width,
-      // topRow: top_row * height,
-      // rightCol: (window.innerWidth / 2 - 250) + ((1 - right_col) * width), // prettier-ignore
-      // bottomRow: height - (bottom_row * height), // prettier-ignore
       leftCol: left_col * width,
       topRow: top_row * height,
       rightCol: width - right_col * width,
