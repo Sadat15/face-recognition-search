@@ -41,8 +41,10 @@ export async function fetchBoundingBox(inputUrl) {
     const data = await response.json();
     const boundingBox =
       data.outputs[0].data.regions[0].region_info.bounding_box;
-    console.log("Bounding Box:", boundingBox);
+    return boundingBox;
   } catch (error) {
     console.log("error", error);
+
+    throw error;
   }
 }
