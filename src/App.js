@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 
 import { fetchBoundingBox } from "./components/api";
 
-function App() {
+export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
 
@@ -29,7 +29,13 @@ function App() {
 
     console.log(width, height);
 
+    console.log(left_col, right_col);
+
     return {
+      // leftCol: window.innerWidth / 2 - 250 + left_col * width,
+      // topRow: top_row * height,
+      // rightCol: (window.innerWidth / 2 - 250) + ((1 - right_col) * width), // prettier-ignore
+      // bottomRow: height - (bottom_row * height), // prettier-ignore
       leftCol: left_col * width,
       topRow: top_row * height,
       rightCol: width - right_col * width,
@@ -58,5 +64,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
