@@ -8,7 +8,7 @@ const particlesOptions = {
   interactivity: {
     events: {
       onClick: {
-        enable: true,
+        enable: false,
         mode: "push",
       },
       onHover: {
@@ -56,7 +56,7 @@ const particlesOptions = {
         enable: true,
         area: 800,
       },
-      value: 30,
+      value: 50,
     },
     opacity: {
       value: 0.5,

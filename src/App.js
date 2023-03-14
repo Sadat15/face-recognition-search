@@ -1,3 +1,4 @@
+import { Route, Routes, Navigate } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
@@ -5,6 +6,9 @@ import Rank from "./components/Rank/Rank";
 import "./App.css";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import ParticlesComponent from "./components/Particles/Particles";
+import Signin from "./components/Signin/Signin";
+import Register from "./components/Register/Register";
+import NotFound from "./components/NotFound";
 
 import { useState } from "react";
 
@@ -39,14 +43,45 @@ export default function App() {
     getBoundingBox(imageUrl);
   };
 
+  // return (
+  //   <div className="App">
+  //     <ParticlesComponent />
+  //     <Navigation />
+  //     <Signin />
+  //     <Logo />
+  //     <Rank />
+  //     <ImageLinkForm onSubmit={onSubmit} />
+  //     <FaceRecognition imageUrl={imageUrl} border={border} />
+  //   </div>
+  // );
   return (
-    <div className="App">
+    <>
       <ParticlesComponent />
       <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm onSubmit={onSubmit} />
-      <FaceRecognition imageUrl={imageUrl} border={border} />
-    </div>
+      <Routes>
+        <Route path="/" element={<Navigate to="/signin" />} />
+        <Route
+          path="/signin"
+          element={
+            <>
+              <Signin />
+            </>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <>
+              <Logo />
+              <Rank />
+              <ImageLinkForm onSubmit={onSubmit} />
+              <FaceRecognition imageUrl={imageUrl} border={border} />
+            </>
+          }
+        />
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }

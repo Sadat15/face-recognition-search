@@ -4,11 +4,11 @@ function FaceRecognition({ imageUrl, border }) {
   let { topRow, bottomRow, leftCol, rightCol } = border;
 
   return (
-    <div className="container center mt3 mb3">
-      <div className="absolute mt2">
+    <div className="container center">
+      <div className="absolute mt3">
         <img
           id="inputimage"
-          className="center"
+          className="center mb3"
           src={imageUrl}
           alt=""
           width="500px"
