@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 app.use(cors());
@@ -45,50 +46,36 @@ const hashPassword = async (input) => {
   }
 };
 
-const passwordCheck = async (input, hash) => {
-  try {
-    const check = await bcrypt.compare(input, hash);
-    return check;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 app.get("/", (req, res) => {
   res.send(database.users);
 });
 
-app.post("/signin", (req, res) => {
+app.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
-  let foundUser = false;
+  let foundUser;
 
   for (const user of database.users) {
     if (user.email === email) {
-      async function checkUser() {
-        try {
-          const checked = await passwordCheck(password, user.password);
-          if (checked) {
-            return res.status(200).json("success");
-          } else {
-            res.status(401).json({
-              message: "Email or Password is incorrect, please try again",
-            });
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      }
-      checkUser();
-      return;
+      foundUser = user;
     }
   }
 
   if (!foundUser) {
-    res
-      .status(401)
-      .json({ message: "Email or Password is incorrect, please try again" });
+    return res.status(401).json({
+      message: "Email or Password is incorrect, please try again",
+    });
   }
+
+  const checked = await bcrypt.compare(password, foundUser.password);
+  if (checked === false) {
+    return res.status(401).json({
+      message: "Email or Password is incorrect, please try again",
+    });
+  }
+
+  const token = jwt.sign({ id: foundUser.id }, "secret");
+  return res.json({ token, userId: foundUser.id });
 });
 
 app.post("/register", (req, res) => {
