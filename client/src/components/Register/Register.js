@@ -1,10 +1,26 @@
 // import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
+
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Register() {
-  const handleRegister = (event) => {
-    // event.preventDefault();
-  };
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  async function handleRegister() {
+    try {
+      const response = await axios.post("http://localhost:8080/register", {
+        name,
+        email,
+        password,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <article className="mw6-ns hidden ba mv5 shadow-5 br2 center">
@@ -21,6 +37,8 @@ function Register() {
                 type="text"
                 name="name"
                 id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="mt3">
@@ -32,6 +50,8 @@ function Register() {
                 type="email"
                 name="email-address"
                 id="email-address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mv3">
@@ -43,6 +63,8 @@ function Register() {
                 type="password"
                 name="password"
                 id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </fieldset>
