@@ -106,6 +106,12 @@ app.post("/signin", (req, res) => {
 app.post("/register", (req, res) => {
   const { email, name, password } = req.body;
 
+  for (const user of database.users) {
+    if (email === user.email) {
+      return res.json({ message: "User already exists!" });
+    }
+  }
+
   async function createUser() {
     try {
       const hashedPassword = await hashPassword(password);

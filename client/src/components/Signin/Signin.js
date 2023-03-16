@@ -7,23 +7,21 @@ function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function sendSigninData() {
-    const data = {
-      email,
-      password,
-    };
-
+  async function handleSignin() {
     try {
-      const response = await axios.post("http://localhost:8080/signin", data);
+      const response = await axios.post("http://localhost:8080/signin", {
+        email,
+        password,
+      });
       console.log(response.data);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }
 
-  const handleSignin = () => {
-    sendSigninData();
-  };
+  // const handleSignin = () => {
+  //   sendSigninData();
+  // };
 
   return (
     <article className="mw6-ns hidden ba mv5 shadow-5 br2 center">
