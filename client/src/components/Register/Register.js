@@ -9,24 +9,18 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function sendRegisterData() {
-    const data = {
-      name,
-      email,
-      password,
-    };
-
+  async function handleRegister() {
     try {
-      const response = await axios.post("http://localhost:8080/register", data);
+      const response = await axios.post("http://localhost:8080/register", {
+        name,
+        email,
+        password,
+      });
       console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }
   }
-
-  const handleRegister = () => {
-    sendRegisterData();
-  };
 
   return (
     <article className="mw6-ns hidden ba mv5 shadow-5 br2 center">

@@ -19,10 +19,6 @@ function Signin() {
     }
   }
 
-  // const handleSignin = () => {
-  //   sendSigninData();
-  // };
-
   return (
     <article className="mw6-ns hidden ba mv5 shadow-5 br2 center">
       <main className="pa4 black-80">

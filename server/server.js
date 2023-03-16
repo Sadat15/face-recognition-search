@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 const database = {
   users: [
     {
-      id: "125",
+      id: "123",
       name: "John",
       email: "john@gmail.com",
       password: "$2b$10$kgR0zqFKYlWCiVzidmzmL.YFqJ.KSnwjC.HKeMozj.HYnXGYtvHJ2",
@@ -18,7 +18,7 @@ const database = {
       joined: new Date(),
     },
     {
-      id: "125",
+      id: "124",
       name: "Sally",
       email: "sally@gmail.com",
       password: "$2b$10$LfiJgAmtNL8MP5YecqpVHuYjNpcGviusgiWMUuMWWlrZ5nI2IFcmW",
@@ -26,7 +26,7 @@ const database = {
       joined: new Date(),
     },
     {
-      id: "126",
+      id: "125",
       name: "Hamza",
       email: "hamza@gmail.com",
       password: "$2b$10$Nw7rROoBLYPA5D7WgzZHT.Gld/Sd8oxlLswsvGE8XMmaMlHC7HLwG",
@@ -54,19 +54,6 @@ const passwordCheck = async (input, hash) => {
   }
 };
 
-// async function checkUser(paramPassword, dbPassword) {
-//   try {
-//     const checked = await passwordCheck(paramPassword, dbPassword);
-//     if (checked) {
-//       return res.json("success");
-//     } else {
-//       res.json("unsuccesful");
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
 app.get("/", (req, res) => {
   res.send(database.users);
 });
@@ -82,12 +69,11 @@ app.post("/signin", (req, res) => {
         try {
           const checked = await passwordCheck(password, user.password);
           if (checked) {
-            foundUser = true;
             return res.status(200).json("success");
           } else {
-            res
-              .status(401)
-              .json("Username or password is incorrect, please try again");
+            res.status(401).json({
+              message: "Email or Password is incorrect, please try again",
+            });
           }
         } catch (error) {
           console.error(error);
@@ -99,7 +85,9 @@ app.post("/signin", (req, res) => {
   }
 
   if (!foundUser) {
-    res.status(401).json("Username or password is incorrect, please try again");
+    res
+      .status(401)
+      .json({ message: "Email or Password is incorrect, please try again" });
   }
 });
 
