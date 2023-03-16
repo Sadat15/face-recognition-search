@@ -1,21 +1,31 @@
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
-function Navigation() {
-  // return (
-  // <nav style={{ display: "flex", justifyContent: "flex-end" }}>
-  //   <p className="f3 link dim black underline pa3 pointer">Register</p>
-  //   <p className="f3 link dim black underline pa3 pointer">Sign Out</p>
-  // </nav>
-  // );
+function Navigation({ setCurrentUser }) {
+  const [cookies, setCookies] = useCookies(["access_token"]);
+
+  const handleSignout = () => {
+    setCookies("access_token", "");
+    window.localStorage.removeItem("userId");
+    setCurrentUser(undefined);
+  };
 
   return (
     <nav style={{ display: "flex", justifyContent: "flex-end" }}>
-      <Link to="/register">
-        <p className="f3 link dim black underline pa3 pointer">Register</p>
-      </Link>
-      <Link>
-        <p className="f3 link dim black underline pa3 pointer">Sign Out</p>
-      </Link>
+      {!cookies.access_token ? (
+        <>
+          <Link to="/register">
+            <p className="f3 link dim black underline pa3 pointer">Register</p>
+          </Link>
+          <Link to="/signin">
+            <p className="f3 link dim black underline pa3 pointer">Sign In</p>
+          </Link>
+        </>
+      ) : (
+        <Link onClick={handleSignout} to="/">
+          <p className="f3 link dim black underline pa3 pointer">Sign Out</p>
+        </Link>
+      )}
     </nav>
   );
 }

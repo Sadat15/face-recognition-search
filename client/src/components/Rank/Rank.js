@@ -1,8 +1,19 @@
-function Rank() {
+function Rank({ currentUser }) {
+  if (currentUser) {
+    const message = `Welcome ${currentUser.name}. Your current rank is...
+    ${currentUser.entries}`;
+
+    return (
+      <div>
+        <div className="white f3 center">{message}</div>
+        <div className="white f1 center"></div>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <div className="white f3 center">Your current rank is...</div>
-      <div className="white f1 center">5</div>
+      <div className="white f3 center">Enter any image!</div>
     </div>
   );
 }

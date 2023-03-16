@@ -17,6 +17,7 @@ import { fetchBoundingBox } from "./components/api";
 export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
+  const [currentUser, setCurrentUser] = useState(undefined);
 
   const calculateFace = (data) => {
     const image = document.getElementById("inputimage");
@@ -43,42 +44,31 @@ export default function App() {
     getBoundingBox(imageUrl);
   };
 
-  // return (
-  //   <div className="App">
-  //     <ParticlesComponent />
-  //     <Navigation />
-  //     <Signin />
-  //     <Logo />
-  //     <Rank />
-  //     <ImageLinkForm onSubmit={onSubmit} />
-  //     <FaceRecognition imageUrl={imageUrl} border={border} />
-  //   </div>
-  // );
   return (
     <>
       <ParticlesComponent />
-      <Navigation />
+      <Navigation setCurrentUser={setCurrentUser} />
       <Routes>
-        <Route path="/" element={<Navigate to="/signin" />} />
         <Route
-          path="/signin"
-          element={
-            <>
-              <Signin />
-            </>
-          }
-        />
-        <Route
-          path="/dashboard"
+          path="/"
           element={
             <>
               <Logo />
-              <Rank />
+              <Rank currentUser={currentUser} />
               <ImageLinkForm onSubmit={onSubmit} />
               <FaceRecognition imageUrl={imageUrl} border={border} />
             </>
           }
         />
+        <Route
+          path="/signin"
+          element={
+            <>
+              <Signin setCurrentUser={setCurrentUser} />
+            </>
+          }
+        />
+
         <Route path="/register" element={<Register />}></Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -52,7 +52,6 @@ app.get("/", (req, res) => {
 
 app.post("/signin", async (req, res) => {
   const { email, password } = req.body;
-
   let foundUser;
 
   for (const user of database.users) {
@@ -75,7 +74,14 @@ app.post("/signin", async (req, res) => {
   }
 
   const token = jwt.sign({ id: foundUser.id }, "secret");
-  return res.json({ token, userId: foundUser.id });
+  return res.json({
+    token,
+    userId: foundUser.id,
+    info: {
+      name: foundUser.name,
+      entries: foundUser.entries,
+    },
+  });
 });
 
 app.post("/register", (req, res) => {
