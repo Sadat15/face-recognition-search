@@ -15,7 +15,7 @@ function FaceRecognition({ imageUrl, border }) {
           height="auto"
         />
         <div
-          className="bounding-box"
+          className={border ? "bounding-box-true" : "bounding-box-false"}
           style={{
             top: topRow,
             bottom: bottomRow,

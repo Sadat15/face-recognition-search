@@ -35,8 +35,13 @@ export default function App() {
   };
 
   const getBoundingBox = async (imageUrl) => {
-    const boundingBox = await fetchBoundingBox(imageUrl);
-    setBorder(calculateFace(boundingBox));
+    try {
+      const boundingBox = await fetchBoundingBox(imageUrl);
+      setBorder(calculateFace(boundingBox));
+    } catch (error) {
+      setBorder(false);
+      console.error(error);
+    }
   };
 
   const onSubmit = (imageUrl) => {

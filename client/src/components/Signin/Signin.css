@@ -190,3 +190,9 @@
 .pointer:hover {
   cursor: pointer;
 }
+
+.MuiAlert-root {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
