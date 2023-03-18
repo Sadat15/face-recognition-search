@@ -2,10 +2,6 @@
   position: relative;
 }
 
-/* #inputimage {
-  position: relative;
-} */
-
 .bounding-box-true {
   position: absolute;
   box-shadow: 0 0 0 3px #149df2 inset;
@@ -17,10 +13,5 @@
 }
 
 .bounding-box-false {
-  box-shadow: 0 0 0 3px #149df2 inset;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  cursor: pointer;
-  box-sizing: border-box;
+  opacity: 0;
 }

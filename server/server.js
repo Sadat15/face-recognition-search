@@ -30,6 +30,7 @@ const database = {
       id: "125",
       name: "Hamza",
       email: "hamza@gmail.com",
+      // grapes
       password: "$2b$10$Nw7rROoBLYPA5D7WgzZHT.Gld/Sd8oxlLswsvGE8XMmaMlHC7HLwG",
       entries: 0,
       joined: "2023-03-15T15:46:49.196Z",
@@ -115,6 +116,7 @@ app.post("/register", (req, res) => {
 
 app.get("/profile/:id", (req, res) => {
   const { id } = req.params;
+
   let found = false;
   database.users.forEach((user) => {
     if (user.id === id) {
@@ -127,18 +129,21 @@ app.get("/profile/:id", (req, res) => {
   }
 });
 
-app.put("/image", (req, res) => {
-  const { id } = req.params;
+app.put("/image", async (req, res) => {
+  const { id } = req.body;
+
   let found = false;
-  database.users.forEach((user) => {
-    if (user.id === id) {
+
+  for (const user of database.users) {
+    if (id === user.id) {
       user.entries++;
       found = true;
       return res.json(user.entries);
     }
-  });
+  }
+
   if (!found) {
-    res.status(404).json("no such user");
+    res.status(404).json("User doesn't exist");
   }
 });
 

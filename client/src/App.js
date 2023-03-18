@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
@@ -9,6 +9,7 @@ import ParticlesComponent from "./components/Particles/Particles";
 import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound";
+import axios from "axios";
 
 import { useState } from "react";
 
@@ -38,9 +39,13 @@ export default function App() {
     try {
       const boundingBox = await fetchBoundingBox(imageUrl);
       setBorder(calculateFace(boundingBox));
+      const id = localStorage.getItem("userId");
+      const updatedEntries = await axios.put("http://localhost:8080/image", {
+        id,
+      });
+      setCurrentUser({ ...currentUser, entries: updatedEntries.data });
     } catch (error) {
       setBorder(false);
-      console.error(error);
     }
   };
 

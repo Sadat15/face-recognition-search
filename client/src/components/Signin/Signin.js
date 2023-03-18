@@ -12,7 +12,7 @@ function Signin({ setCurrentUser }) {
   const [password, setPassword] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
 
-  const [_, setCookies] = useCookies(["access_token"]);
+  const [_, setCookies] = useCookies(["access_token"]); // eslint-disable-line
 
   const navigate = useNavigate();
 
