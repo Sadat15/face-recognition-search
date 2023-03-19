@@ -38,15 +38,6 @@ const database = {
   ],
 };
 
-const hashPassword = async (input) => {
-  try {
-    const hashedPassword = await bcrypt.hash(input, 10);
-    return hashedPassword;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 app.get("/", (req, res) => {
   res.send(database.users);
 });
@@ -85,7 +76,7 @@ app.post("/signin", async (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const { email, name, password } = req.body;
 
   for (const user of database.users) {
@@ -94,24 +85,20 @@ app.post("/register", (req, res) => {
     }
   }
 
-  async function createUser() {
-    try {
-      const hashedPassword = await hashPassword(password);
-      database.users.push({
-        id: "125",
-        name,
-        email,
-        password: hashedPassword,
-        entries: 0,
-        joined: new Date(),
-      });
-      res.json(database.users[database.users.length - 1]);
-    } catch (error) {
-      console.error(error);
-    }
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    database.users.push({
+      id: "125",
+      name,
+      email,
+      password: hashedPassword,
+      entries: 0,
+      joined: new Date(),
+    });
+    res.json(database.users[database.users.length - 1]);
+  } catch (error) {
+    console.error(error);
   }
-
-  createUser();
 });
 
 app.get("/profile/:id", (req, res) => {
