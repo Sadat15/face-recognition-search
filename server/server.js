@@ -3,134 +3,111 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const connectionData = require("./config.js");
+const knex = require("knex")({
+  client: "pg",
+  connection: connectionData,
+});
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
-const database = {
-  users: [
-    {
-      id: "123",
-      name: "John",
-      email: "john@gmail.com",
-      password: "$2b$10$kgR0zqFKYlWCiVzidmzmL.YFqJ.KSnwjC.HKeMozj.HYnXGYtvHJ2",
-      entries: 0,
-      joined: new Date(),
-    },
-    {
-      id: "124",
-      name: "Sally",
-      email: "sally@gmail.com",
-      password: "$2b$10$LfiJgAmtNL8MP5YecqpVHuYjNpcGviusgiWMUuMWWlrZ5nI2IFcmW",
-      entries: 0,
-      joined: new Date(),
-    },
-    {
-      id: "125",
-      name: "Hamza",
-      email: "hamza@gmail.com",
-      // grapes
-      password: "$2b$10$Nw7rROoBLYPA5D7WgzZHT.Gld/Sd8oxlLswsvGE8XMmaMlHC7HLwG",
-      entries: 0,
-      joined: "2023-03-15T15:46:49.196Z",
-    },
-  ],
-};
 
 app.get("/", (req, res) => {
   res.send(database.users);
 });
 
 app.post("/signin", async (req, res) => {
-  const { email, password } = req.body;
-  let foundUser;
+  try {
+    const [userLogin] = await knex
+      .select("email", "hash")
+      .from("login")
+      .where("email", "=", req.body.email);
 
-  for (const user of database.users) {
-    if (user.email === email) {
-      foundUser = user;
+    if (!userLogin) {
+      return res
+        .status(400)
+        .json("Username or password is incorrect. Please try again.");
     }
-  }
 
-  if (!foundUser) {
-    return res.status(401).json({
-      message: "Email or Password is incorrect, please try again",
-    });
-  }
+    const isValid = await bcrypt.compare(req.body.password, userLogin.hash);
 
-  const checked = await bcrypt.compare(password, foundUser.password);
-  if (checked === false) {
-    return res.status(401).json({
-      message: "Email or Password is incorrect, please try again",
-    });
-  }
+    if (isValid) {
+      const [{ id, name, _, entries }] = await knex
+        .select("*")
+        .from("users")
+        .where("email", "=", req.body.email);
+      const token = jwt.sign({ id }, "secret");
 
-  const token = jwt.sign({ id: foundUser.id }, "secret");
-  return res.json({
-    token,
-    userId: foundUser.id,
-    info: {
-      name: foundUser.name,
-      entries: foundUser.entries,
-    },
-  });
+      return res.json({
+        token,
+        userId: id,
+        info: { name, entries },
+      });
+    } else {
+      res.status(400).json("Username or password is incorrect");
+    }
+  } catch (error) {
+    console.error({ message: error });
+  }
 });
 
 app.post("/register", async (req, res) => {
   const { email, name, password } = req.body;
-
-  for (const user of database.users) {
-    if (email === user.email) {
-      return res.json({ message: "User already exists!" });
-    }
-  }
+  const hash = bcrypt.hashSync(password, 10);
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    database.users.push({
-      id: "125",
-      name,
-      email,
-      password: hashedPassword,
-      entries: 0,
-      joined: new Date(),
+    const user = await knex.transaction(async (trx) => {
+      const [loginEmail] = await trx("login")
+        .insert({ hash, email })
+        .returning("email");
+
+      const [newUser] = await trx("users")
+        .insert({
+          email: loginEmail.email,
+          name,
+          joined: new Date(),
+        })
+        .returning("*");
+
+      return newUser;
     });
-    res.json(database.users[database.users.length - 1]);
+
+    res.json(user);
   } catch (error) {
     console.error(error);
+    res.status(400).json("unable to register");
   }
 });
 
-app.get("/profile/:id", (req, res) => {
+app.get("/profile/:id", async (req, res) => {
   const { id } = req.params;
 
-  let found = false;
-  database.users.forEach((user) => {
-    if (user.id === id) {
-      found = true;
-      return res.json(user);
+  try {
+    const user = await knex.select("*").from("users").where({ id });
+    if (user.length) {
+      res.json(user[0]);
+    } else {
+      res.status(400).json({ message: "error getting user" });
     }
-  });
-  if (!found) {
-    return res.status(404).json("no such user");
+  } catch (error) {
+    console.error(error);
+    res.json("Not found");
   }
 });
 
 app.put("/image", async (req, res) => {
   const { id } = req.body;
 
-  let found = false;
-
-  for (const user of database.users) {
-    if (id === user.id) {
-      user.entries++;
-      found = true;
-      return res.json(user.entries);
-    }
-  }
-
-  if (!found) {
-    res.status(404).json("User doesn't exist");
+  try {
+    const entries = await knex("users")
+      .where("id", "=", id)
+      .increment("entries", 1)
+      .returning("entries");
+    res.json(entries[0]);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: "unable to get entries" });
   }
 });
 
