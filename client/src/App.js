@@ -20,7 +20,7 @@ export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
   const [currentUser, setCurrentUser] = useState(undefined);
-  const [cookies, setCookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token"]);
 
   const calculateFace = (data) => {
     const image = document.getElementById("inputimage");
