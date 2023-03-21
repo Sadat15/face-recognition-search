@@ -39,11 +39,13 @@ export default function App() {
     try {
       const boundingBox = await fetchBoundingBox(imageUrl);
       setBorder(calculateFace(boundingBox));
-      const id = localStorage.getItem("userId");
-      const updatedEntries = await axios.put("http://localhost:8080/image", {
-        id,
-      });
-      setCurrentUser({ ...currentUser, entries: updatedEntries.data });
+      if (!currentUser) {
+        const id = localStorage.getItem("userId");
+        const updatedEntries = await axios.put("http://localhost:8080/image", {
+          id,
+        });
+        setCurrentUser({ ...currentUser, entries: updatedEntries.data });
+      }
     } catch (error) {
       setBorder(false);
     }
