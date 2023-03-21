@@ -20,7 +20,7 @@ export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
   const [currentUser, setCurrentUser] = useState(undefined);
-  const [cookies] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token"]); // eslint-disable-line
 
   const calculateFace = (data) => {
     const image = document.getElementById("inputimage");
@@ -41,7 +41,7 @@ export default function App() {
     try {
       const boundingBox = await fetchBoundingBox(imageUrl);
       setBorder(calculateFace(boundingBox));
-      if (!cookies.access_token) {
+      if (Object.keys(cookies).length !== 0) {
         const id = localStorage.getItem("userId");
         const updatedEntries = await axios.put("http://localhost:8080/image", {
           id,
