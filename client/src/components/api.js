@@ -10,7 +10,8 @@ export async function fetchBoundingBox(inputUrl) {
     method: "POST",
     headers: {
       Accept: "application/json",
-      Authorization: "Key " + PAT,
+      Authorization: "Key ",
+      // Authorization: "Key " + PAT,
     },
     body: JSON.stringify({
       user_app_id: {
