@@ -1,4 +1,4 @@
-import { PAT } from "../config";
+// import { PAT } from "../config";
 
 const USER_ID = "clarifai";
 const APP_ID = "main";
@@ -10,7 +10,8 @@ export async function fetchBoundingBox(inputUrl) {
     method: "POST",
     headers: {
       Accept: "application/json",
-      Authorization: "Key " + PAT,
+      Authorization: "Key ",
+      // Authorization: "Key " + PAT,
     },
     body: JSON.stringify({
       user_app_id: {
