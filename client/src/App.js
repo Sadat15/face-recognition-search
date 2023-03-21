@@ -10,6 +10,7 @@ import Signin from "./components/Signin/Signin";
 import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 import { useState } from "react";
 
@@ -19,6 +20,7 @@ export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
   const [currentUser, setCurrentUser] = useState(undefined);
+  const [cookies, setCookies] = useCookies(["access_token"]);
 
   const calculateFace = (data) => {
     const image = document.getElementById("inputimage");
@@ -39,7 +41,7 @@ export default function App() {
     try {
       const boundingBox = await fetchBoundingBox(imageUrl);
       setBorder(calculateFace(boundingBox));
-      if (!currentUser) {
+      if (!cookies.access_token) {
         const id = localStorage.getItem("userId");
         const updatedEntries = await axios.put("http://localhost:8080/image", {
           id,
