@@ -1,4 +1,4 @@
-// import { PAT } from "../config";
+// import { PAT } from "./config";
 
 const USER_ID = "clarifai";
 const APP_ID = "main";
