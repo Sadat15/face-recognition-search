@@ -1,5 +1,4 @@
-// import { PAT } from "./config";
-const PAT = process.env.PAT;
+import PAT from "./config";
 
 const USER_ID = "clarifai";
 const APP_ID = "main";
