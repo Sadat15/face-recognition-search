@@ -3,10 +3,14 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const connectionData = require("./config.js");
 const knex = require("knex")({
   client: "pg",
-  connection: connectionData,
+  connection: {
+    host: "127.0.0.1",
+    user: "sadat",
+    password: "",
+    database: "face-recognition",
+  },
 });
 
 const app = express();
