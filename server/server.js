@@ -6,10 +6,10 @@ const jwt = require("jsonwebtoken");
 const knex = require("knex")({
   client: "pg",
   connection: {
-    host: "127.0.0.1",
-    user: "sadat",
-    password: "",
-    database: "face-recognition",
+    host: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 });
 
