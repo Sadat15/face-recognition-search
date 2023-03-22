@@ -115,6 +115,6 @@ app.put("/image", async (req, res) => {
   }
 });
 
-app.listen(8080, () => {
-  console.log("app is running on port 8080");
+app.listen(process.env.PORT || 8080, () => {
+  console.log(`App is running on port ${process.env.PORT}`);
 });
