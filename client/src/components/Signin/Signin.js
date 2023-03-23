@@ -19,7 +19,7 @@ function Signin({ setCurrentUser }) {
   async function handleSignin() {
     try {
       const response = await axios.post(
-        "https://still-brushlands-05308.herokuapp.com//signin",
+        "https://still-brushlands-05308.herokuapp.com/signin",
         {
           email,
           password,
