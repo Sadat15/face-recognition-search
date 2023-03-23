@@ -1,7 +1,7 @@
 function Rank({ currentUser }) {
   if (currentUser) {
     const message = `Welcome ${currentUser.name}. Your current rank is...
-    ${currentUser.info.entries}`;
+    ${currentUser.entries}`;
     return (
       <div>
         <div className="white f3 center">{message}</div>
