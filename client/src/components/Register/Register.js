@@ -10,11 +10,14 @@ function Register() {
 
   async function handleRegister() {
     try {
-      const response = await axios.post("http://localhost:8080/register", {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://still-brushlands-05308.herokuapp.com/register",
+        {
+          name,
+          email,
+          password,
+        }
+      );
       console.log(response.data);
     } catch (error) {
       console.log(error.message);

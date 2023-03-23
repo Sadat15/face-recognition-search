@@ -18,10 +18,13 @@ function Signin({ setCurrentUser }) {
 
   async function handleSignin() {
     try {
-      const response = await axios.post("http://localhost:8080/signin", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://still-brushlands-05308.herokuapp.com//signin",
+        {
+          email,
+          password,
+        }
+      );
       setCookies("access_token", response.data.token);
       window.localStorage.setItem("userId", response.data.userId);
       navigate("/");

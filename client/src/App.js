@@ -43,9 +43,12 @@ export default function App() {
       setBorder(calculateFace(boundingBox));
       if (Object.keys(cookies).length !== 0) {
         const id = localStorage.getItem("userId");
-        const updatedEntries = await axios.put("http://localhost:8080/image", {
-          id,
-        });
+        const updatedEntries = await axios.put(
+          "https://still-brushlands-05308.herokuapp.com/image",
+          {
+            id,
+          }
+        );
         setCurrentUser({ ...currentUser, entries: updatedEntries.data });
       }
     } catch (error) {
