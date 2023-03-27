@@ -14,6 +14,9 @@ function Navigation({ setCurrentUser }) {
     <nav style={{ display: "flex", justifyContent: "flex-end" }}>
       {!cookies.access_token ? (
         <>
+          <Link to="/">
+            <p className="f3 link dim black underline pa3 pointer">Home</p>
+          </Link>
           <Link to="/register">
             <p className="f3 link dim black underline pa3 pointer">Register</p>
           </Link>
