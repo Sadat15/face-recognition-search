@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-function Navigation({ setCurrentUser }) {
+import { useContext } from "react";
+import UserContext from "../../context/user";
+
+function Navigation() {
+  const { setUser } = useContext(UserContext);
   const [cookies, setCookies] = useCookies(["access_token"]);
 
   const handleSignout = () => {
     setCookies("access_token", "");
     window.localStorage.removeItem("userId");
-    setCurrentUser(undefined);
+    setUser(undefined);
   };
 
   return (

@@ -6,7 +6,12 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "@mui/material";
 
-function Signin({ setCurrentUser }) {
+import { useContext } from "react";
+import UserContext from "../../context/user";
+
+function Signin() {
+  const { setUser } = useContext(UserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
@@ -24,7 +29,9 @@ function Signin({ setCurrentUser }) {
       setCookies("access_token", response.data.token);
       window.localStorage.setItem("userId", response.data.userId);
       navigate("/");
-      setCurrentUser(response.data.info);
+      console.log(response);
+      setUser(response.data.info);
+      // setCurrentUser(response.data.info);
       setOpenAlert(false);
     } catch (error) {
       setOpenAlert(true);
