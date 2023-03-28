@@ -14,7 +14,7 @@ import { useCookies } from "react-cookie";
 
 import { useState } from "react";
 
-import { fetchBoundingBox } from "./components/api";
+import fetchBoundingBox from "./components/api";
 
 import { useContext } from "react";
 import UserContext from "./context/user";
@@ -23,6 +23,7 @@ export default function App() {
   const { user, setUser } = useContext(UserContext);
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
+
   const [cookies] = useCookies(["access_token"]); // eslint-disable-line
 
   const calculateFace = (data) => {
