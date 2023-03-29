@@ -14,12 +14,15 @@ import { useCookies } from "react-cookie";
 
 import { useState } from "react";
 
-import { fetchBoundingBox } from "./components/api";
+import fetchBoundingBox from "./components/api";
+
+import { useContext } from "react";
+import UserContext from "./context/user";
 
 export default function App() {
+  const { user, setUser } = useContext(UserContext);
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
-  const [currentUser, setCurrentUser] = useState(undefined);
   const [cookies] = useCookies(["access_token"]); // eslint-disable-line
 
   const calculateFace = (data) => {
@@ -46,7 +49,8 @@ export default function App() {
         const updatedEntries = await axios.put("http://localhost:8080/image", {
           id,
         });
-        setCurrentUser({ ...currentUser, entries: updatedEntries.data });
+        setUser({ ...user, entries: updatedEntries.data.entries });
+        console.log(user);
       }
     } catch (error) {
       setBorder(false);
@@ -61,14 +65,14 @@ export default function App() {
   return (
     <>
       <ParticlesComponent />
-      <Navigation setCurrentUser={setCurrentUser} />
+      <Navigation />
       <Routes>
         <Route
           path="/"
           element={
             <>
               <Logo />
-              <Rank currentUser={currentUser} />
+              <Rank />
               <ImageLinkForm onSubmit={onSubmit} />
               <FaceRecognition imageUrl={imageUrl} border={border} />
             </>
@@ -78,7 +82,7 @@ export default function App() {
           path="/signin"
           element={
             <>
-              <Signin setCurrentUser={setCurrentUser} />
+              <Signin />
             </>
           }
         />
