@@ -5,7 +5,6 @@ function Rank() {
   const { user } = useContext(UserContext);
 
   if (user) {
-    console.log(user);
     const message = `Welcome ${user.name}. Your current rank is...
     ${user.entries}`;
     return (

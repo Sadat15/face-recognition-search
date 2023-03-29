@@ -28,7 +28,6 @@ function Signin() {
       setCookies("access_token", response.data.token);
       window.localStorage.setItem("userId", response.data.userId);
       navigate("/");
-      console.log(response);
       setUser(response.data.info);
       setOpenAlert(false);
     } catch (error) {
