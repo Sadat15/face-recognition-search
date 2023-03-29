@@ -23,7 +23,6 @@ export default function App() {
   const { user, setUser } = useContext(UserContext);
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
-
   const [cookies] = useCookies(["access_token"]); // eslint-disable-line
 
   const calculateFace = (data) => {
