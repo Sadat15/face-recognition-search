@@ -11,11 +11,8 @@ import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound";
 import axios from "axios";
 import { useCookies } from "react-cookie";
-
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import fetchBoundingBox from "./components/api";
-
 import { useContext } from "react";
 import UserContext from "./context/user";
 
@@ -24,6 +21,19 @@ export default function App() {
   const [imageUrl, setImageUrl] = useState("");
   const [border, setBorder] = useState({});
   const [cookies] = useCookies(["access_token"]); // eslint-disable-line
+
+  useEffect(() => {
+    if (cookies.access_token) {
+      (async () => {
+        const response = await axios.get(
+          `http://localhost:8080/profile/${window.localStorage.getItem(
+            "userId"
+          )}`
+        );
+        setUser({ name: response.data.name, entries: response.data.entries });
+      })();
+    }
+  }, []); // eslint-disable-line
 
   const calculateFace = (data) => {
     const image = document.getElementById("inputimage");
@@ -44,7 +54,7 @@ export default function App() {
     try {
       const boundingBox = await fetchBoundingBox(imageUrl);
       setBorder(calculateFace(boundingBox));
-      if (Object.keys(cookies.access_token).length !== 0) {
+      if (cookies.access_token) {
         const id = localStorage.getItem("userId");
         const updatedEntries = await axios.put("http://localhost:8080/image", {
           id,
