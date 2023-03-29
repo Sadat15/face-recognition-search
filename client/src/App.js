@@ -45,12 +45,13 @@ export default function App() {
     try {
       const boundingBox = await fetchBoundingBox(imageUrl);
       setBorder(calculateFace(boundingBox));
-      if (Object.keys(cookies).length !== 0) {
+      if (Object.keys(cookies.access_token).length !== 0) {
         const id = localStorage.getItem("userId");
         const updatedEntries = await axios.put("http://localhost:8080/image", {
           id,
         });
-        setUser({ ...user, entries: updatedEntries.data });
+        setUser({ ...user, entries: updatedEntries.data.entries });
+        console.log(user);
       }
     } catch (error) {
       setBorder(false);

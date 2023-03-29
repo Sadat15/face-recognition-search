@@ -1,4 +1,4 @@
-import { PAT } from "../config.js";
+import PAT from "../config.js";
 
 const USER_ID = "clarifai";
 const APP_ID = "main";

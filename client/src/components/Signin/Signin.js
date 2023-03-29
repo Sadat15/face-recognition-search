@@ -15,7 +15,6 @@ function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
-
   const [_, setCookies] = useCookies(["access_token"]); // eslint-disable-line
 
   const navigate = useNavigate();
@@ -31,7 +30,6 @@ function Signin() {
       navigate("/");
       console.log(response);
       setUser(response.data.info);
-      // setCurrentUser(response.data.info);
       setOpenAlert(false);
     } catch (error) {
       setOpenAlert(true);
